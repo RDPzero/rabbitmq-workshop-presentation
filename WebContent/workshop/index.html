@@ -47,7 +47,8 @@
 				<img src="../assets/img/bad_code_db.png" class="stretch">
 				<p>E em caso de indisponibilidade do banco de dados?</p>
 			</section>
-			<section>
+			<section data-background-image="../assets/img/rabbit-ears.png"
+				data-background-size="40%">
 				<h2>RabbitMQ</h2>
 				<p>Um sistema de mensageria open source que implementa o padrão
 					AMQP.</p>
@@ -55,9 +56,11 @@
 					de seu(s) criador(es) (publisher) e as roteiam até seu(s)
 					consumidor(es) (consumer)</p>
 			</section>
-			<section>
+			<section data-background-image="../assets/img/rabbit-ears.png"
+				data-background-size="40%">
 				<h3>Mensageria</h3>
-				<section>
+				<section data-background-image="../assets/img/rabbit-ears.png"
+					data-background-size="40%">
 					<p>É uma forma de trocar mensagens de um ponto A para um ponto
 						B ou diversos pontos C.</p>
 					<p>Possibilita comunicação distribuída fracamente acoplada.</p>
@@ -66,13 +69,15 @@
 					<p>O publisher e o consumer não precisam estar disponíveis no
 						mesmo momento para se comunicar.</p>
 				</section>
-				<section>
+				<section data-background-image="../assets/img/rabbit-ears.png"
+					data-background-size="40%">
 					<p>Um exemplo de mensageria é o e-mail.</p>
 					<p>O componente que recebe a mensagem do publisher e no qual o
 						consumer pega a mensagem é o message broker ou middleware de
 						mensageria</p>
 				</section>
-				<section>
+				<section data-background-image="../assets/img/rabbit-ears.png"
+					data-background-size="40%">
 					<p>Alguns usos da mensageria:</p>
 					<ul>
 						<li>Enviar dados para diversas aplicações sem chamar suas
@@ -84,39 +89,47 @@
 					</ul>
 				</section>
 			</section>
-			<section>
+			<section data-background-image="../assets/img/rabbit-ears.png"
+				data-background-size="40%">
 				<h3>AMQP 0-9-1 (Advanced Message Queuing Protocol)</h3>
 				<img src="../assets/img/hello-world-example-routing.png">
 			</section>
-			<section>
+			<section data-background-image="../assets/img/rabbit-ears.png"
+				data-background-size="40%">
 				<p>Brokers entregam as mensagens para os consumers inscritos na
 					fila.</p>
 				<p>/</p>
 				<p>O consumer faz o pull de mensagens das filas sob demanda.</p>
 			</section>
-			<section>
+			<section data-background-image="../assets/img/rabbit-ears.png"
+				data-background-size="40%">
 				<h3>Métodos</h3>
-				<section>
+				<section data-background-image="../assets/img/rabbit-ears.png"
+					data-background-size="40%">
 					<aside class="notes">Métodos são operações, agrupados em
 						classes.</aside>
 					<img src="../assets/img/exchange-declare.png"><br> <img
 						src="../assets/img/exchange-declare-ok.png">
 				</section>
-				<section>
+				<section data-background-image="../assets/img/rabbit-ears.png"
+					data-background-size="40%">
 					<img src="../assets/img/queue-declare.png"><br> <img
 						src="../assets/img/queue-declare-ok.png">
 				</section>
 			</section>
-			<section>
+			<section data-background-image="../assets/img/rabbit-ears.png"
+				data-background-size="40%">
 				<h3>Entidades</h3>
 				<p>Filas (queues), exchanges e bindings são chamadas "entidades
 					AMQP".</p>
 				<p>A aplicação define as entidades que ela precisa e os esquemas
 					de rotas necessários.</p>
 			</section>
-			<section>
+			<section data-background-image="../assets/img/rabbit-ears.png"
+				data-background-size="40%">
 				<h3>Mensagem</h3>
-				<section>
+				<section data-background-image="../assets/img/rabbit-ears.png"
+					data-background-size="40%">
 					<p>As mensagens tem, entre outros, os atributos:</p>
 					<ul>
 						<li>Content type</li>
@@ -129,7 +142,8 @@
 						<li>Publisher application id</li>
 					</ul>
 				</section>
-				<section>
+				<section data-background-image="../assets/img/rabbit-ears.png"
+					data-background-size="40%">
 					<p>As mensagens também tem um payload, que representa os dados
 						que ela carrega.</p>
 					<p>O broker trata esse payload como um byte array e nunca
@@ -138,9 +152,11 @@
 						para tratar da serialização e deserialização desse payload.</p>
 				</section>
 			</section>
-			<section>
+			<section data-background-image="../assets/img/rabbit-ears.png"
+				data-background-size="40%">
 				<h3>Filas</h3>
-				<section>
+				<section data-background-image="../assets/img/rabbit-ears.png"
+					data-background-size="40%">
 					<p>Armazenam mensagens que serão consumidas por aplicações.
 						Têm, entre outras, as propriedades:</p>
 					<ul>
@@ -154,7 +170,8 @@
 							específicas do broker, p.ex.: queue lenght limit, time to live)</li>
 					</ul>
 				</section>
-				<section>
+				<section data-background-image="../assets/img/rabbit-ears.png"
+					data-background-size="40%">
 					<p>Uma fila precisa ser declarada numa aplicação.</p>
 					<p>Declarar uma fila vai fazer com que ela seja criada se ela
 						não existe.</p>
@@ -162,7 +179,8 @@
 						atributos são os mesmos, mas quando os atributos são diferentes,
 						uma exceção é lançada.</p>
 				</section>
-				<section>
+				<section data-background-image="../assets/img/rabbit-ears.png"
+					data-background-size="40%">
 					<p>As aplicações podem escolher o nome da fila ou deixar para o
 						broker gerar um passando uma string vazia no nome da queue.</p>
 					<p>Nomes começados com "amq." são reservados para uso interno
@@ -171,7 +189,8 @@
 						mensagens "persistent" são recuperadas em caso de restart.</p>
 				</section>
 			</section>
-			<section>
+			<section data-background-image="../assets/img/rabbit-ears.png"
+				data-background-size="40%">
 				<h3>Bindings</h3>
 				<p>Regras que os exchanges usam para rotear as mensagens para as
 					filas.</p>
@@ -181,8 +200,10 @@
 				<p>Utilizando extensões, também é possível que a mensagem seja
 					direcionada para a fila de "dead letter"</p>
 			</section>
-			<section>
-				<section>
+			<section data-background-image="../assets/img/rabbit-ears.png"
+				data-background-size="40%">
+				<section data-background-image="../assets/img/rabbit-ears.png"
+					data-background-size="40%">
 					<h3>Exchanges</h3>
 					<p>Responsável por rotear a mensagem em zero ou mais filas. O
 						algoritmo de toreamento depende do tipo e bindings. Os brokers do
@@ -194,7 +215,8 @@
 						<li>Headers</li>
 					</ul>
 				</section>
-				<section>
+				<section data-background-image="../assets/img/rabbit-ears.png"
+					data-background-size="40%">
 					<p>Exchanges também têm diversos atributos, entre eles:</p>
 					<ul>
 						<li>Name</li>
@@ -207,7 +229,8 @@
 					<p>Exchanges transientes devem ser redeclarados quando o broker
 						volta a fica online</p>
 				</section>
-				<section>
+				<section data-background-image="../assets/img/rabbit-ears.png"
+					data-background-size="40%">
 					<h3>Default</h3>
 					<p>É um direct exchange sem nome pré-declarado pelo broker.</p>
 					<p>Tem uma propriedade especial útil para aplicações simples:
@@ -216,19 +239,22 @@
 					<img src="../assets/img/default.png"
 						style="background-color: white">
 				</section>
-				<section>
+				<section data-background-image="../assets/img/rabbit-ears.png"
+					data-background-size="40%">
 					<h3>Fanout</h3>
 					<p>O fanout exchange roteia as mensagens para todas filas que
 						estão vinculadas a ele.</p>
 					<img src="../assets/img/fanout.png" style="background-color: white">
 				</section>
-				<section>
+				<section data-background-image="../assets/img/rabbit-ears.png"
+					data-background-size="40%">
 					<h3>Direct</h3>
 					<p>Entrega as mensagens para as filas baseado nas routing keys
 						das mensagens.</p>
 					<img src="../assets/img/direct.png" style="background-color: white">
 				</section>
-				<section>
+				<section data-background-image="../assets/img/rabbit-ears.png"
+					data-background-size="40%">
 					<h3>Topic</h3>
 					<p>Semelhante ao direct, porém nesse caso as routing keys são
 						padrões.</p>
@@ -236,7 +262,8 @@
 					<p>* substitui exatamente uma palavra.</p>
 					<p># substitui zero ou mais palavras.</p>
 				</section>
-				<section>
+				<section data-background-image="../assets/img/rabbit-ears.png"
+					data-background-size="40%">
 					<h3>Headers</h3>
 					<p>Entrega as mensagens para as filas baseado nos headers das
 						mensagens. Ignora a routing key.</p>
@@ -244,12 +271,15 @@
 						caso, é necessário o argumento "x-match" com o valor "any" (OR) ou
 						"all" (AND)</p>
 				</section>
-				<section>
+				<section data-background-image="../assets/img/rabbit-ears.png"
+					data-background-size="40%">
 					<img src="../assets/img/headers.png">
 				</section>
 			</section>
-			<section>
-				<section>
+			<section data-background-image="../assets/img/rabbit-ears.png"
+				data-background-size="40%">
+				<section data-background-image="../assets/img/rabbit-ears.png"
+					data-background-size="40%">
 					<h3>Quando o broker remove mensagens das filas?</h3>
 					<p>A especificação do AMQP 0-9-1 propõe duas escolhas:</p>
 					<p>- Depois que o broker manda a mensagem para uma aplicação
@@ -263,7 +293,8 @@
 						letter.
 					</aside>
 				</section>
-				<section>
+				<section data-background-image="../assets/img/rabbit-ears.png"
+					data-background-size="40%">
 					<h3>Explicit Acknowledgement Model</h3>
 					<ul>
 						<li>método basic.ack: Ok (permite bulk)</li>
@@ -274,7 +305,8 @@
 							permite fazer reject em bulk)</li>
 					</ul>
 				</section>
-				<section>
+				<section data-background-image="../assets/img/rabbit-ears.png"
+					data-background-size="40%">
 					<h3>Prefetching</h3>
 					<p>Útil para caso em que múltiplos consumidores dividem uma
 						fila para especificar quantas mensagens vão ser enviadas para cada
@@ -284,7 +316,8 @@
 						rabbit.</aside>
 				</section>
 			</section>
-			<section>
+			<section data-background-image="../assets/img/rabbit-ears.png"
+				data-background-size="40%">
 				<h3>Considerações</h3>
 				<aside class="notes">
 					AMQP usa protocolo TCP. Pode ser protegido com TLS(SSL).<br>Se
@@ -294,7 +327,8 @@
 					implementa extensões.
 				</aside>
 			</section>
-			<section>
+			<section data-background-image="../assets/img/rabbit-ears.png"
+				data-background-size="40%">
 				<h3>Referências/Mais informações</h3>
 				<ul>
 					<li><a
