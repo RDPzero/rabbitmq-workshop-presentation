@@ -1,0 +1,369 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+<title>Novo Stack Commerce Livelo - Workshop Flyway</title>
+
+<meta charset="utf-8">
+<meta name="description"
+	content="A framework for easily creating beautiful presentations using HTML">
+<meta name="author" content="TObias Rocha da Rosa">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style"
+	content="black-translucent">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+<link rel="stylesheet" href="../assets/css/reveal.css">
+<link rel="stylesheet" href="../assets/css/theme/moon.css" id="theme">
+<link rel="stylesheet" href="../assets/lib/css/zenburn.css">
+
+<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+</head>
+<body>
+	<div class="reveal">
+		<div class="slides">
+			<section>
+				<h2>Novo Stack Commerce Livelo</h2>
+				<img src="../assets/img/logo-rabbitmq.png">
+				<p>
+					<small>Ricardo Deitoz Posser</small>
+				</p>
+			</section>
+			<section>
+				<h3>Criando um pedido</h3>
+				<img src="../assets/img/bad_code.png" class="stretch">
+			</section>
+			<section>
+				<img src="../assets/img/bad_code_npe.png" class="stretch">
+				<p>O que fazer em caso de falha na criação do pedido?</p>
+			</section>
+			<section>
+				<img src="../assets/img/bad_code_500.png" class="stretch">
+				<p>E se ocorrer erro na chamada no envio de e-mail?</p>
+			</section>
+			<section>
+				<img src="../assets/img/bad_code_db.png" class="stretch">
+				<p>E em caso de indisponibilidade do banco de dados?</p>
+			</section>
+			<section>
+				<h2>RabbitMQ</h2>
+				<p>Um sistema de mensageria open source que implementa o padrão
+					AMQP.</p>
+				<p class="fragment">Espécie de middleware que recebe mensagens
+					de seu(s) criador(es) (publisher) e as roteiam até seu(s)
+					consumidor(es) (consumer)</p>
+			</section>
+			<section>
+				<h3>Mensageria</h3>
+				<section>
+					<p>É uma forma de trocar mensagens de um ponto A para um ponto
+						B ou diversos pontos C.</p>
+					<p>Possibilita comunicação distribuída fracamente acoplada.</p>
+					<p>O publisher envia uma mensagem a um destino, e o consumer
+						obtém a mensagem no destino.</p>
+					<p>O publisher e o consumer não precisam estar disponíveis no
+						mesmo momento para se comunicar.</p>
+				</section>
+				<section>
+					<p>Um exemplo de mensageria é o e-mail.</p>
+					<p>O componente que recebe a mensagem do publisher e no qual o
+						consumer pega a mensagem é o message broker ou middleware de
+						mensageria</p>
+				</section>
+				<section>
+					<p>Alguns usos da mensageria:</p>
+					<ul>
+						<li>Enviar dados para diversas aplicações sem chamar suas
+							APIs diretamente na aplicação;</li>
+						<li>Fazer as coisas em uma certa ordem, como em um sistema
+							transacional;</li>
+						<li>Monitorar feeds de dados (ex.:quantidade de pedidos
+							efetuados).</li>
+					</ul>
+				</section>
+			</section>
+			<section>
+				<h3>AMQP 0-9-1 (Advanced Message Queuing Protocol)</h3>
+				<img src="../assets/img/hello-world-example-routing.png">
+			</section>
+			<section>
+				<p>Brokers entregam as mensagens para os consumers inscritos na
+					fila.</p>
+				<p>/</p>
+				<p>O consumer faz o pull de mensagens das filas sob demanda.</p>
+			</section>
+			<section>
+				<h3>Métodos</h3>
+				<section>
+					<aside class="notes">Métodos são operações, agrupados em
+						classes.</aside>
+					<img src="../assets/img/exchange-declare.png"><br> <img
+						src="../assets/img/exchange-declare-ok.png">
+				</section>
+				<section>
+					<img src="../assets/img/queue-declare.png"><br> <img
+						src="../assets/img/queue-declare-ok.png">
+				</section>
+			</section>
+			<section>
+				<h3>Entidades</h3>
+				<p>Filas (queues), exchanges e bindings são chamadas "entidades
+					AMQP".</p>
+				<p>A aplicação define as entidades que ela precisa e os esquemas
+					de rotas necessários.</p>
+			</section>
+			<section>
+				<h3>Mensagem</h3>
+				<section>
+					<p>As mensagens tem, entre outros, os atributos:</p>
+					<ul>
+						<li>Content type</li>
+						<li>Content encoding</li>
+						<li>Routing key</li>
+						<li>Delivery mode (persistente ou não)</li>
+						<li>Message priority</li>
+						<li>Message publishing timestamp</li>
+						<li>Expiration period</li>
+						<li>Publisher application id</li>
+					</ul>
+				</section>
+				<section>
+					<p>As mensagens também tem um payload, que representa os dados
+						que ela carrega.</p>
+					<p>O broker trata esse payload como um byte array e nunca
+						inspeciona ou modifica o conteúdo.</p>
+					<p>Tipicamente, os atributos Content type e encoding são usados
+						para tratar da serialização e deserialização desse payload.</p>
+				</section>
+			</section>
+			<section>
+				<h3>Filas</h3>
+				<section>
+					<p>Armazenam mensagens que serão consumidas por aplicações.
+						Têm, entre outras, as propriedades:</p>
+					<ul>
+						<li>Name</li>
+						<li>Durable</li>
+						<li>Exclusive (usada por uma conexão e será deletada quando a
+							conexão for fechada)</li>
+						<li>Auto-delete (é deletada quando o último consumidor
+							cancela a subscrição)</li>
+						<li>Arguments (opcional, usado por plugins ou features
+							específicas do broker, p.ex.: queue lenght limit, time to live)</li>
+					</ul>
+				</section>
+				<section>
+					<p>Uma fila precisa ser declarada numa aplicação.</p>
+					<p>Declarar uma fila vai fazer com que ela seja criada se ela
+						não existe.</p>
+					<p>A declaração não vai ter efeito se a fila já existe e os
+						atributos são os mesmos, mas quando os atributos são diferentes,
+						uma exceção é lançada.</p>
+				</section>
+				<section>
+					<p>As aplicações podem escolher o nome da fila ou deixar para o
+						broker gerar um passando uma string vazia no nome da queue.</p>
+					<p>Nomes começados com "amq." são reservados para uso interno
+						do broker.</p>
+					<p>A durabilidade da fila não faz as mensagens duráveis. Apenas
+						mensagens "persistent" são recuperadas em caso de restart.</p>
+				</section>
+			</section>
+			<section>
+				<h3>Bindings</h3>
+				<p>Regras que os exchanges usam para rotear as mensagens para as
+					filas.</p>
+				<p>Se uma mensagem não pode ser roteada para nenhuma fila (por
+					exemplo: não existem bindings que ligam a mensagem à fila) ela é
+					perdida ou retorna para o publisher, dependendo dos seus atributos.</p>
+				<p>Utilizando extensões, também é possível que a mensagem seja
+					direcionada para a fila de "dead letter"</p>
+			</section>
+			<section>
+				<section>
+					<h3>Exchanges</h3>
+					<p>Responsável por rotear a mensagem em zero ou mais filas. O
+						algoritmo de toreamento depende do tipo e bindings. Os brokers do
+						AMQP 0-9-1 tem 4 tipos:</p>
+					<ul>
+						<li>Direct</li>
+						<li>Fanout</li>
+						<li>Topic</li>
+						<li>Headers</li>
+					</ul>
+				</section>
+				<section>
+					<p>Exchanges também têm diversos atributos, entre eles:</p>
+					<ul>
+						<li>Name</li>
+						<li>Durability (sobrevive ao restart do broker)</li>
+						<li>Auto-delete (é deletado quando a última fila é
+							desvinculada)</li>
+						<li>Arguments (opcional, usado por plugins e features
+							específicas do broker)</li>
+					</ul>
+					<p>Exchanges transientes devem ser redeclarados quando o broker
+						volta a fica online</p>
+				</section>
+				<section>
+					<h3>Default</h3>
+					<p>É um direct exchange sem nome pré-declarado pelo broker.</p>
+					<p>Tem uma propriedade especial útil para aplicações simples:
+						toda fila que é criada é automaticamente vinculada ao default com
+						uma rota que é o nome da fila.</p>
+					<img src="../assets/img/default.png"
+						style="background-color: white">
+				</section>
+				<section>
+					<h3>Fanout</h3>
+					<p>O fanout exchange roteia as mensagens para todas filas que
+						estão vinculadas a ele.</p>
+					<img src="../assets/img/fanout.png" style="background-color: white">
+				</section>
+				<section>
+					<h3>Direct</h3>
+					<p>Entrega as mensagens para as filas baseado nas routing keys
+						das mensagens.</p>
+					<img src="../assets/img/direct.png" style="background-color: white">
+				</section>
+				<section>
+					<h3>Topic</h3>
+					<p>Semelhante ao direct, porém nesse caso as routing keys são
+						padrões.</p>
+					<img src="../assets/img/topic.png" style="background-color: white">
+					<p>* substitui exatamente uma palavra.</p>
+					<p># substitui zero ou mais palavras.</p>
+				</section>
+				<section>
+					<h3>Headers</h3>
+					<p>Entrega as mensagens para as filas baseado nos headers das
+						mensagens. Ignora a routing key.</p>
+					<p>É possível vincular uma fila usando mais de um header. Nesse
+						caso, é necessário o argumento "x-match" com o valor "any" (OR) ou
+						"all" (AND)</p>
+				</section>
+				<section>
+					<img src="../assets/img/headers.png">
+				</section>
+			</section>
+			<section>
+				<section>
+					<h3>Quando o broker remove mensagens das filas?</h3>
+					<p>A especificação do AMQP 0-9-1 propõe duas escolhas:</p>
+					<p>- Depois que o broker manda a mensagem para uma aplicação
+						(automatic acknowledgement model);</p>
+					<p>- Depois que a aplicação manda um ack (explicit
+						acknowledgement model).</p>
+					<aside class="notes">
+						Explicit: A aplicação controla quando envia o ack.<br>Se a
+						aplicação morre antes de enviar o ack, a mensagem volta pra fila.<br>Não
+						é muito utilizado no projeto. Ao invés disso, utilizamos dead
+						letter.
+					</aside>
+				</section>
+				<section>
+					<h3>Explicit Acknowledgement Model</h3>
+					<ul>
+						<li>método basic.ack: Ok (permite bulk)</li>
+						<li>método basic.reject: Problema, descarte ou coloque
+							novamente na fila</li>
+						<li>método basic.nack: Problema, descarte ou coloque
+							novamente na fila (implementado como extensão no RabbitMQ,
+							permite fazer reject em bulk)</li>
+					</ul>
+				</section>
+				<section>
+					<h3>Prefetching</h3>
+					<p>Útil para caso em que múltiplos consumidores dividem uma
+						fila para especificar quantas mensagens vão ser enviadas para cada
+						consumidor, aumentando o throughput de mensagens que tendem a ser
+						publicadas em batch ou usada como balancer.</p>
+					<aside class="notes">Round robin é um algoritmo usado pelo
+						rabbit.</aside>
+				</section>
+			</section>
+			<section>
+				<h3>Considerações</h3>
+				<aside class="notes">
+					AMQP usa protocolo TCP. Pode ser protegido com TLS(SSL).<br>Se
+					a aplicação precisar múltiplas conexões a um broker, ele multiplexa
+					em canais.<br>É possível que um único broker tenha mais de um
+					ambiente isolado (vhost).<br>O AMQP é extensível e o RabbitMQ
+					implementa extensões.
+				</aside>
+			</section>
+			<section>
+				<h3>Referências/Mais informações</h3>
+				<ul>
+					<li><a
+						href=https://www.rabbitmq.com/tutorials/amqp-concepts.html>https://www.rabbitmq.com/tutorials/amqp-concepts.html</a>
+					</li>
+					<li><a href=https://www.rabbitmq.com/devtools.html>https://www.rabbitmq.com/devtools.html</a>
+					</li>
+					<li><a href=https://www.rabbitmq.com/dlx.html>https://www.rabbitmq.com/dlx.html</a>
+				</ul>
+			</section>
+		</div>
+	</div>
+
+	<script src="../assets/lib/js/head.min.js"></script>
+	<script src="../assets/js/reveal.js"></script>
+	<script>
+		Reveal.initialize({
+			controls : true,
+			progress : true,
+			history : true,
+			center : true,
+			transition : 'slide',
+			dependencies : [ {
+				src : '../assets/lib/js/classList.js',
+				condition : function() {
+					return !document.body.classList;
+				}
+			}, {
+				src : '../assets/plugin/markdown/marked.js',
+				condition : function() {
+					return !!document.querySelector('[data-markdown]');
+				}
+			}, {
+				src : '../assets/plugin/markdown/markdown.js',
+				condition : function() {
+					return !!document.querySelector('[data-markdown]');
+				}
+			}, {
+				src : '../assets/plugin/highlight/highlight.js',
+				async : true,
+				callback : function() {
+					hljs.initHighlightingOnLoad();
+				}
+			}, {
+				src : '../assets/plugin/search/search.js',
+				async : true
+			}, {
+				src : '../assets/plugin/zoom-js/zoom.js',
+				async : true
+			}, {
+				src : '../assets/plugin/notes/notes.js',
+				async : true
+			} ]
+		});
+		Reveal.configure({
+			slideNumber : true
+		});
+	</script>
+	<script>
+		var toggler = document.getElementsByClassName("caret");
+		var i;
+
+		for (i = 0; i < toggler.length; i++) {
+			toggler[i].addEventListener("click", function() {
+				this.parentElement.querySelector(".nested").classList
+						.toggle("active");
+				this.classList.toggle("caret-down");
+			});
+		}
+	</script>
+</body>
+</html>
